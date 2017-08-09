@@ -1,0 +1,5 @@
+All pair shortest distances
+      0      4      7      8
+    inf      0      3      4
+    inf    inf      0      1
+    inf    inf    inf      0

@@ -1,0 +1,11 @@
+All pair shortest distances
+      0     86     35      6     31    inf     54     32     26      2
+    inf      0    inf    inf    inf    inf    inf    inf    inf    inf
+     44     51      0     50     67    inf     19     76     70     46
+     27    104     62      0     25    inf     72     42     44     29
+     22     79     38     24      0    inf     47     17     19     24
+    inf    inf    inf    inf    inf      0    inf    inf    inf    inf
+     25     32     60     31     48    inf      0     57     51     27
+     12     62     47     18     18    inf     30      0     37     14
+      3     68     19      5     24    inf     36      6      0      5
+     31    108     66      4     29    inf     76     46     48      0
