@@ -1,10 +1,4 @@
-CC=gcc
-OUT=fw
-
-all: fw
-
-fw: fw.c
-	$(CC) -o $(OUT) fw.c
+all: $(basename $(wildcard *.c))
 
 clean:
-	rm $(OUT)
+	rm $(basename $(wildcard *.c))
