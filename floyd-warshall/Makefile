@@ -1,10 +1,11 @@
-CC=gcc
-OUT=fw
+all: $(basename $(wildcard *.c))
 
-all: fw
+debug: CFLAGS += -g
+debug: all
 
-fw: fw.c
-	$(CC) -o $(OUT) fw.c
+test: $(addsuffix .test, $(basename $(wildcard tests/*.in)))
+%.test: %.in %.out /usr/bin/cmp all
+	@./fw $< | cmp -s $(word 2, $?) -
 
 clean:
-	rm $(OUT)
+	rm $(basename $(wildcard *.c))
