@@ -28,11 +28,11 @@ void floydWarshall (uint32_t* dists, uint32_t v) {
          end = 0, end_loop_1 = 0, end_loop_2 = 0, end_loop_3 = 0;
   _time(&start);
 
-  for (uint8_t i = 0; i < v; ++i) {
+  for (uint32_t i = 0; i < v; ++i) {
     _time(&start_loop_1);
-    for (uint8_t f = 0; f < v; ++f) {
+    for (uint32_t f = 0; f < v; ++f) {
       _time(&start_loop_2);
-      for (uint8_t d = 0; d < v; ++d) {
+      for (uint32_t d = 0; d < v; ++d) {
         _time(&start_loop_3);
         if (!__builtin_uadd_overflow(dists[f*v + i], dists[i*v + d], &sum)
             && sum < dists[f*v + d]) {
