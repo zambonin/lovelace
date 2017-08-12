@@ -8,16 +8,13 @@
 // Solves the all-pairs shortest path problem using Floyd Warshall algorithm
 void floydWarshall (uint32_t* dists, uint32_t v) {
 
-  for (uint8_t _v = 0; _v < v; ++_v) {
-    for (uint8_t f = 0; f < v; ++f) {
-      for (uint8_t d = 0; d < v; ++d) {
-        uint32_t sum = dists[f*v + _v] + dists[_v*v + d];
-        if (dists[f*v + _v] != -1 && dists[_v*v + d] != -1
+  uint32_t sum = 0;
+  for (uint8_t i = 0; i < v; ++i)
+    for (uint8_t f = 0; f < v; ++f)
+      for (uint8_t d = 0; d < v; ++d)
+        if (!__builtin_uadd_overflow(dists[f*v + i], dists[i*v + d], &sum)
             && sum < dists[f*v + d])
           dists[f*v + d] = sum;
-      }
-    }
-  }
 
 }
 
