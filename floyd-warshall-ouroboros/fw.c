@@ -34,9 +34,9 @@ void floydWarshall (uint32_t* dists, uint32_t v) {
       _time(&start_loop_2);
       for (uint32_t d = 0; d < v; ++d) {
         _time(&start_loop_3);
-        if (!__builtin_uadd_overflow(dists[f*v + i], dists[i*v + d], &sum)
-            && sum < dists[f*v + d]) {
-          dists[f*v + d] = sum;
+        if (!__builtin_uadd_overflow(dists[f*v + i], dists[i*v + d], &sum)) {
+          dists[f*v + d] = \
+            sum ^ ((dists[f*v + d] ^ sum) & -(dists[f*v + d] < sum));
         }
         _time(&end_loop_3);
       }
