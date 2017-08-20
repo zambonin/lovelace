@@ -1,0 +1,2 @@
+Parallelizable program that calculates integrals for three polynomials. Based
+on Rosetta Code's C++ numerical integration implementation.
