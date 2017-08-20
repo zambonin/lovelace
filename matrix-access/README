@@ -2,3 +2,10 @@ Example of how managing elements contiguously in memory can achieve an overall
 better performance when traversing an array. In the case of C, arrays are
 row-major ordered; hence, when forcing a column-aligned data read, cache
 locality will suffer greatly. Based on @llpilla's implementation.
+
+Usage: ./matrix_access
+  -h	Show this message
+  -a	Accesses the matrix by column
+  -d	Prints debug information
+  -c n	Number of columns for the matrix (default = 100)
+  -r n	Number of rows for the matrix (default = 100)

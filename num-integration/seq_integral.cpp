@@ -1,4 +1,5 @@
 #include <iostream>
+#include <omp.h>
 #include <sys/time.h>
 
 void _time(double *t) {
@@ -17,6 +18,7 @@ template <typename Method, typename F, typename Float>
 double integrate(F f, Float a, Float b, int steps, Method m) {
   double s = 0;
   double h = (b - a) / steps;
+#pragma omp parallel for reduction(+ : s)
   for (int i = 0; i < steps; ++i) {
     s += m(f, a + h * i, h);
   }
