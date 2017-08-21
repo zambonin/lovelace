@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -Ofast
+CFLAGS = -Wall -Wextra -Ofast -std=gnu99
 
 all: $(basename $(wildcard *.c))
 

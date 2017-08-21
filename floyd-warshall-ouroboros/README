@@ -4,7 +4,7 @@ will find the lengths of the shortest paths between all pairs of vertices.
 
 The commands below may help in visualizing how much time executions take.
 
-    $ sed -i '9,22d; 27,30d; 49,53d; 73,75d; 116,118d; /_time/d' fw.c
+    $ sed -i '7,18d; 21,24d; 43,47d; 65,67d; 98d; 100,103d; /_time/d' fw.c
     $ TIMEFORMAT='%E'
     $ for i in {1..100} ; do (time ./fw graph) 2>&1 ; done | sort | uniq -c
 
