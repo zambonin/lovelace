@@ -2,14 +2,20 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+static inline long row_index(long k, int r, int c) { return k + (r + c) * 0; }
+static inline long col_index(long k, int r, int c) {
+  return (k / (c - 1)) + (k % r) * c;
+}
+
 int main(int argc, char *argv[]) {
-  int byrow = 1, debug = 0, c;
+  int debug = 0, c;
   char *rvalue = "100", *cvalue = "100";
+  long (*index)(long, int, int) = &row_index;
 
   while ((c = getopt(argc, argv, "hadr:c:")) != -1) {
     switch (c) {
     case 'a':
-      byrow = 0;
+      index = &col_index;
       break;
     case 'd':
       debug = 1;
@@ -34,7 +40,7 @@ int main(int argc, char *argv[]) {
   }
 
   int row = strtol(rvalue, NULL, 0), col = strtol(cvalue, NULL, 0);
-  int *matrix = malloc(row * col * sizeof(int)), order = 0;
+  int *matrix = calloc((long)row * col, sizeof(int)), order = 0;
 
   if (matrix == NULL) {
     printf("Matrix is too big!\n");
@@ -46,18 +52,8 @@ int main(int argc, char *argv[]) {
     printf("Memory access starts!\n");
   }
 
-  if (byrow == 1) {
-    for (int i = 0; i < row; ++i) {
-      for (int j = 0; j < col; ++j) {
-        matrix[i * col + j] = order++;
-      }
-    }
-  } else {
-    for (int j = 0; j < col; ++j) {
-      for (int i = 0; i < row; ++i) {
-        matrix[i * col + j] = order++;
-      }
-    }
+  for (long i = 0; i < (long)row * col; ++i) {
+    matrix[index(i, row, col)] = order++;
   }
 
   if (debug == 1) {
