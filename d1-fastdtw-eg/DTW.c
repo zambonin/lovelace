@@ -92,27 +92,28 @@ struct time_warp_info_t * DTW_DynamicTimeWarp(struct access_pattern_t *tsI, stru
 	for(i = 0; i < tsI->reqnb; i++)
 	{
 		for(j=0; j < tsJ->reqnb; j++)
-			costMatrix[i][j] = 0;
+			costMatrix[i*tsI->reqnb+j] = 0;
 	}
 
 
 	//calculate the values for the first column
-	costMatrix[0][0] = DTW_euclideanDist(tsI, tsJ, 0, 0);
+	costMatrix[0*tsI->reqnb+0] = DTW_euclideanDist(tsI, tsJ, 0, 0);
 	for(j = 1; j < tsJ->reqnb; j++)
 	{
-		costMatrix[0][j] = costMatrix[0][j-1] + DTW_euclideanDist(tsI, tsJ, 0, j);
-	}
+		costMatrix[0*tsI->reqnb+j] = costMatrix[0*tsI->reqnb+(j-1)] + DTW_euclideanDist(tsI, tsJ, 0, j);
+  }
 	//now for the rest of the matrix
 	for(i = 1; i< tsI->reqnb; i++)
 	{
 		//calculate for the bottom row
-		costMatrix[i][0] = costMatrix[i-1][0] + DTW_euclideanDist(tsI, tsJ, i, 0);
+		costMatrix[i*tsI->reqnb+0] = costMatrix[(i-1)*tsI->reqnb+0] + DTW_euclideanDist(tsI, tsJ, i, 0);
 		//now for the other rows
 		for(j = 1; j < tsJ->reqnb; j++)
-			costMatrix[i][j] = (min(costMatrix[i-1][j], min(costMatrix[i-1][j-1], costMatrix[i][j-1]))) + DTW_euclideanDist(tsI, tsJ, i, j);
+      //costMatrix[0][j] = costMatrix[0][j-1] + DTW_euclideanDist(tsI, tsJ, 0, j);
+			costMatrix[i*tsI->reqnb+j] = (min(costMatrix[(i-1)*tsI->reqnb+j], min(costMatrix[(i-1)*tsI->reqnb+(j-1)], costMatrix[i*tsI->reqnb+(j-1)]))) + DTW_euclideanDist(tsI, tsJ, i, j);
 	}
 	//ok, now we have minimum cost
-	ret->distance = costMatrix[tsI->reqnb-1][tsJ->reqnb-1];
+	ret->distance = costMatrix[(tsI->reqnb-1)*tsI->reqnb+(tsJ->reqnb-1)];
 
 	if(!distanceonly) //we might not need to generate the path (if we are using DTW, not fast dtw)
 	{
@@ -126,15 +127,15 @@ struct time_warp_info_t * DTW_DynamicTimeWarp(struct access_pattern_t *tsI, stru
 			long long int diagCost, leftCost, downCost;
 
 			if(( i > 0) & (j > 0))
-				diagCost = costMatrix[i-1][j-1];
+				diagCost = costMatrix[(i-1)*tsI->reqnb+(j-2)];
 			else
 				diagCost = LLONG_MAX;
 			if (i > 0)
-				leftCost = costMatrix[i-1][j];
+				leftCost = costMatrix[(i-1)*tsI->reqnb+j];
 			else
 				leftCost = LLONG_MAX;
 			if(j > 0)
-				downCost = costMatrix[i][j-1];
+				downCost = costMatrix[i*tsI->reqnb+(j-1)];
 			else
 				downCost = LLONG_MAX;
 			//determine which direction to move in. Prefer moving diagonally and moving towards i == j axis of the matrixif there are ties
@@ -432,9 +433,9 @@ void Add_to_TimeWarp_Path(struct time_warp_info_t *info, int a, int b)
 //functions to handle the cost matrix, used by the DTW_DynamicTipeWarp function. We'll allocate it once and keep during calculations
 int costMatrix_sizeI = 0;
 int costMatrix_sizeJ = 0;
-long long int **cMatrix = NULL;
+long long int *cMatrix = NULL;
 
-long long int ** Check_cMatrix_allocation(int tsI_reqnb, int tsJ_reqnb)
+long long int * Check_cMatrix_allocation(int tsI_reqnb, int tsJ_reqnb)
 {
 	int i;
 
@@ -444,15 +445,10 @@ long long int ** Check_cMatrix_allocation(int tsI_reqnb, int tsJ_reqnb)
 		//first free the previous one
 		if(cMatrix)
 		{
-			for(i=0; i < costMatrix_sizeI; i++)
-			{
-				if(cMatrix[i])
-					free(cMatrix[i]);
-			}
 			free(cMatrix);
 		}
 		//now allocate a new one
-		cMatrix = malloc(sizeof(long long int *)*(tsI_reqnb));
+		cMatrix = malloc(sizeof(long long int *)*(tsI_reqnb*tsJ_reqnb));
 		if(cMatrix == NULL)
 		{
 			agios_print("PANIC! Could not allocate cost Matrix for DTW");
