@@ -1,9 +1,10 @@
 #!/bin/bash
-TIMER="time -f %e"
+TIMER="perf stat -d"
 TESTS=2
+EXEC=sw
 for run in `seq ${TESTS}`;
 do
-    $TIMER ./SmithWaterman.py tests/$run/base1 tests/$run/base2 > result
+    $TIMER ./$EXEC tests/$run/base1 tests/$run/base2 > result
     diff result tests/$run/output
 done
 

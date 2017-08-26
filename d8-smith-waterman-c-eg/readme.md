@@ -1,8 +1,13 @@
 # Smith-Waterman
 
-* **Para compilar**: não há compilação (é Python!)
+* **Para compilar**: make
 * **Para testar**: ./run.sh
 
-## Dica de otimização
+## Otimização
 
-* Investiguem o que as poucas linhas de código estão fazendo :)
+* Código traduzido para C
+* Compilador escolhido: icc
+* Troca de variáveis invariantes por valores absolutos
+* Valor dependente do loop externo guardado em registrador
+* Matriz linear (inicializada com memset)
+* Remoção de chamadas de função dentro do loop
