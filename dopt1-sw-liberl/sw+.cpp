@@ -41,8 +41,8 @@ int main(int argc, char **argv) {
   if(seq2.size() > MAX) {
     seq2 = seq2.substr(0, MAX);
   }
-  std::cout << seq1 << ":" << seq2 << ":" << seq1.size() << ":" << seq2.size() << std::endl;
-  std::cout << smith_waterman(seq1, seq2, 2, -1, -1) << std::endl;
+  // std::cout << seq1 << ":" << seq2 << ":" << seq1.size() << ":" << seq2.size() << std::endl;
+  std::cout << "Max Score is " << smith_waterman(seq1, seq2, 2, -1, -1) << std::endl;
 
   return 0;
 }
