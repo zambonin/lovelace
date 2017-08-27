@@ -2,24 +2,22 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-
+#define MAX 4999
 int smith_waterman(const std::string &seq1, const std::string &seq2,
                    int match, int mismatch, int gap) {
-  size_t r = seq1.size() + 1, c = seq2.size() + 1;
+  int r = seq1.size()+1, c = seq2.size()+1;
   std::vector<int> matrix(2 * c);
-  int diag = 0, up = 0, left = 0, score = 0, max = 0, sim = 0, i = 0, ii = 0;
+  int diag = 0, up = 0, left = 0, score = 0, max = 0, sim = 0;
 
-  for (size_t v = 1; v < r; ++v) {
-    i = v%2;
-    ii = (v-1)%2;
-    for (size_t j = 1; j < c; ++j) {
-      sim = (seq1[v - 1] == seq2[j - 1]) ? match : mismatch;
-      diag = matrix[ii * c + (j - 1)] + sim;
-      up = matrix[ii * c + j] + gap;
-      left = matrix[i * c + (j - 1)] + gap;
+  for (int i = 1; i < r; i++) {
+    for (int j = 1; j < c; j++) {
+      sim = (seq1[i - 1] == seq2[j - 1]) ? match : mismatch;
+      diag = matrix[(i-1)%2 * c + (j - 1)] + sim;
+      up = matrix[(i-1)%2 * c + j] + gap;
+      left = matrix[i%2 * c + (j - 1)] + gap;
       score = std::max({left, diag, up, 0});
       max = std::max(max, score);
-      matrix[i * c + j] = score;
+      matrix[i%2 * c + j] = score;
     }
   }
 
@@ -37,6 +35,13 @@ int main(int argc, char **argv) {
   f1 >> seq1;
   f2 >> seq2;
 
+  if (seq1.size() > MAX) {
+    seq1 = seq1.substr(0, MAX);
+  }
+  if(seq2.size() > MAX) {
+    seq2 = seq2.substr(0, MAX);
+  }
+  std::cout << seq1 << ":" << seq2 << ":" << seq1.size() << ":" << seq2.size() << std::endl;
   std::cout << smith_waterman(seq1, seq2, 2, -1, -1) << std::endl;
 
   return 0;
