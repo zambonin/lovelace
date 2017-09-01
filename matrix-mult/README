@@ -1,0 +1,5 @@
+Naïve matrix multiplication code used to demonstrate how compilers can
+optimize loops depending on their passes. `icc` can invert the innermost
+two loops to ascertain a better cache alignment.
+
+Usage: ./mm <sq. matrix side>
