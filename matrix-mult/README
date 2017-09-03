@@ -3,3 +3,8 @@ optimize loops depending on their passes. `icc` can invert the innermost
 two loops to ascertain a better cache alignment.
 
 Usage: ./mm <sq. matrix side>
+
+A Python automated tuner can be executed to explore some common compiler flags
+used to optimize the code.
+
+Usage: python autotuner.py "cmd"

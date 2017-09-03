@@ -1,5 +1,4 @@
-CC = clang
-CFLAGS = -Wall -Wextra -Ofast
+CFLAGS = -Wall -Wextra -O3 -DSTEP=16
 
 all: $(basename $(wildcard *.c))
 

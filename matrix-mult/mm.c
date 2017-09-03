@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  size_t i, j, k;
+  size_t i, j, k, jj, kk;
   for (i = 0; i < side; ++i) {
     for (j = 0; j < side; ++j) {
       A[i * side + j] = 1.0;
@@ -28,10 +28,16 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  for (i = 0; i < side; ++i) {
-    for (k = 0; k < side; ++k) {
-      for (j = 0; j < side; ++j) {
-        C[i * side + j] += A[i * side + k] * B[k * side + j];
+  for (jj = 0; jj < side; jj += STEP) {
+    for (kk = 0; kk < side; kk += STEP) {
+      for (i = 0; i < side; ++i) {
+        for (j = jj; j < jj + STEP; ++j) {
+          float r = 0.0;
+          for (k = kk; k < kk + STEP; ++k) {
+            r += A[i * side + k] * B[k * side + j];
+          }
+          C[i * side + j] += r;
+        }
       }
     }
   }
