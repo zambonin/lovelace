@@ -1,3 +1,4 @@
+#include <omp.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,55 +27,72 @@ void display(void *u, uint32_t w, uint32_t h) {
 
 void evolve(void *u, int32_t w, int32_t h) {
   uint32_t(*univ)[w] = u, new[h][w];
-  int32_t x, y, x1, y1;
+  int32_t x, y, x1, y1, chunk, num_chunks = w * h / (STEP * STEP),
+                               chunks_in_row = h / STEP,
+                               chunks_in_col = w / STEP;
 
-  for (x = 0; x < w; x++) {
-    for (y = 0; y < h; y++) {
-      uint32_t alive = 0, undead = 0;
-      for (x1 = x - 1; x1 <= x + 1; x1++) {
-        for (y1 = y - 1; y1 <= y + 1; y1++) {
-          if (y1 >= 0 && y1 < h && x1 >= 0 && x1 < w) {
-            if (univ[y1][x1] == ALIVE) {
-              alive++;
-            } else if (univ[y1][x1] == UNDEAD) {
-              undead++;
+#pragma omp parallel for shared(u, univ, new) firstprivate(                    \
+    w, h, num_chunks, chunks_in_row,                                           \
+    chunks_in_col) private(x, x1, y, y1, chunk) schedule(static)
+  for (chunk = 0; chunk < num_chunks; chunk++) {
+    int32_t r_start = STEP * (chunk / chunks_in_col),
+            c_start = STEP * (chunk % chunks_in_row),
+            r_end = r_start + STEP > h ? h : r_start + STEP,
+            c_end = c_start + STEP > w ? w : c_start + STEP, r, c;
+
+    for (c = c_start; c < c_end; c += STEP) {
+      for (r = r_start; r < r_end; r += STEP) {
+        for (y = c_start; y < c_end; ++y) {
+          for (x = r_start; x < r_end; ++x) {
+            uint32_t alive = 0, undead = 0;
+            for (y1 = y - 1; y1 <= y + 1; y1++) {
+              for (x1 = x - 1; x1 <= x + 1; x1++) {
+                if (y1 >= 0 && y1 < h && x1 >= 0 && x1 < w) {
+                  if (univ[y1][x1] == ALIVE) {
+                    alive++;
+                  } else if (univ[y1][x1] == UNDEAD) {
+                    undead++;
+                  }
+                }
+              }
+            }
+
+#ifdef DEBUG
+            fprintf(stderr, "univ[%u][%u] state=%u alive=%u undead=%u\n", y, x,
+                    univ[y][x], alive, undead);
+#endif
+            if (univ[y][x] == ALIVE) {
+              if (undead > 1) { // devoured
+                new[y][x] = DEAD;
+              } else if ((undead == 1) && (alive > 2)) { // keeps fighting
+                new[y][x] = ALIVE;
+              } else if ((undead == 1) && (alive <= 2)) { // zombie
+                new[y][x] = UNDEAD;
+              } else if (alive > 4) { // overcrowding
+                new[y][x] = DEAD;
+              } else {
+                new[y][x] = ALIVE;
+              }
+            } else if (univ[y][x] == UNDEAD) {
+              if (alive > 3) { // destroyed
+                new[y][x] = DEAD;
+              } else if ((alive == 3) && (undead == 3)) { // keeps attacking
+                new[y][x] = UNDEAD;
+              } else if (undead > 4) { // starvation
+                new[y][x] = DEAD;
+              } else {
+                new[y][x] = UNDEAD;
+              }
+            } else {
+              if (alive == 3) { // new survivor
+                new[y][x] = ALIVE;
+              } else if (undead > 2) { // raise undead
+                new[y][x] = UNDEAD;
+              } else {
+                new[y][x] = DEAD;
+              }
             }
           }
-        }
-      }
-#ifdef DEBUG
-      fprintf(stderr, "univ[%u][%u] state=%u alive=%u undead=%u\n", y, x,
-              univ[y][x], alive, undead);
-#endif
-      if (univ[y][x] == ALIVE) {
-        if (undead > 1) { // devoured
-          new[y][x] = DEAD;
-        } else if ((undead == 1) && (alive > 2)) { // keeps fighting
-          new[y][x] = ALIVE;
-        } else if ((undead == 1) && (alive <= 2)) { // zombie
-          new[y][x] = UNDEAD;
-        } else if (alive > 4) { // overcrowding
-          new[y][x] = DEAD;
-        } else {
-          new[y][x] = ALIVE;
-        }
-      } else if (univ[y][x] == UNDEAD) {
-        if (alive > 3) { // destroyed
-          new[y][x] = DEAD;
-        } else if ((alive == 3) && (undead == 3)) { // keeps attacking
-          new[y][x] = UNDEAD;
-        } else if (undead > 4) { // starvation
-          new[y][x] = DEAD;
-        } else {
-          new[y][x] = UNDEAD;
-        }
-      } else {
-        if (alive == 3) { // new survivor
-          new[y][x] = ALIVE;
-        } else if (undead > 2) { // raise undead
-          new[y][x] = UNDEAD;
-        } else {
-          new[y][x] = DEAD;
         }
       }
     }

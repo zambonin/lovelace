@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -O3
+CFLAGS = -Wall -Wextra -O3 -DSTEP=10 -fopenmp
 
 all: $(basename $(wildcard *.c))
 
