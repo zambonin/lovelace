@@ -1,0 +1,2 @@
+A variant of Conway's Game of Life by @llpilla. Execution returns the number
+of iterations with people alive.
