@@ -1,2 +1,4 @@
 A variant of Conway's Game of Life by @llpilla. Execution returns the number
-of iterations with people alive.
+of iterations with people alive. Some other optimizations could be applied,
+such as creating a 'ghost' border on the matrix to prevent frontier tests
+and the unification of 'alive' and 'undead' scores.

@@ -48,11 +48,8 @@ void evolve(void *u, int32_t w, int32_t h) {
             for (y1 = y - 1; y1 <= y + 1; y1++) {
               for (x1 = x - 1; x1 <= x + 1; x1++) {
                 if (y1 >= 0 && y1 < h && x1 >= 0 && x1 < w) {
-                  if (univ[y1][x1] == ALIVE) {
-                    alive++;
-                  } else if (univ[y1][x1] == UNDEAD) {
-                    undead++;
-                  }
+                  alive += (univ[y1][x1] == ALIVE);
+                  undead += (univ[y1][x1] == UNDEAD);
                 }
               }
             }
@@ -106,17 +103,17 @@ void evolve(void *u, int32_t w, int32_t h) {
 }
 
 uint32_t survivors(void *u, uint32_t w, uint32_t h) {
-  uint32_t(*univ)[w] = u, x, y, survivors = 0;
+  uint32_t(*univ)[w] = u, x, y;
 
   for (x = 0; x < w; x++) {
     for (y = 0; y < h; y++) {
       if (univ[y][x] == ALIVE) {
-        survivors = 1;
+        return 1;
       }
     }
   }
 
-  return survivors;
+  return 0;
 }
 
 void initialize(void *u, uint32_t w, uint32_t h, uint32_t seed) {
