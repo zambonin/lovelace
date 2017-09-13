@@ -1,10 +1,12 @@
-CC=gcc
-OUT=fw
+CC=clang
+CFLAGS = -Wall -Wextra -O3
+OUTPUT=apsp
 
-all: fw
+all:
+	@$(CC) $(CFLAGS) $(wildcard *.c) -o $(OUTPUT)
 
-fw: fw.c
-	$(CC) -o $(OUT) fw.c
+debug: CFLAGS += -g
+debug: all
 
 clean:
-	rm $(OUT)
+	@rm $(OUTPUT)
