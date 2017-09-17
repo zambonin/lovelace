@@ -1,0 +1,10 @@
+In graph theory, a connected component of an undirected graph is a subgraph
+in which any two vertices are connected to each other by paths, and which is
+connected to no additional vertices in the supergraph. The list of components
+can be found in linear time (in terms of the numbers of the vertices and
+edges of the graph) using either breadth-first or depth-first search.
+
+Generate a graph using the generator found inside Floyd-Warshall's folder,
+and pass it to the executable.
+
+    $ ./find_components <graph_file>
