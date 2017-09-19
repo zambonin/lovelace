@@ -87,8 +87,10 @@ int main(int argc, char *argv[]) {
   for (size_t i = 0; i < A.rows(); ++i)
     for (size_t k = 0; k < A.columns(); ++k) {
       int a = A(i, k);
-      for (size_t j = 0; j < B.columns(); ++j)
-        C(i,j) += a * B(k,j);
+      if (a) {
+        for (size_t j = 0; j < B.columns(); ++j)
+          C(i,j) += a * B(k, j);
+      }
     }
 
 // #pragma omp parallel for schedule(dynamic)
