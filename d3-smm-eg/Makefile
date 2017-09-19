@@ -1,10 +1,7 @@
-CC=g++
-OUT=mm
+CXX = g++
+CXXFLAGS = -Ofast -std=c++11 -Wall -Wextra -fopenmp
 
-all: mm
-
-mm: mm.cpp
-	$(CC) -o $(OUT) mm.cpp -O2 -std=c++11
+all: $(basename mm.cpp)
 
 clean:
-	rm $(OUT)
+	rm mm
