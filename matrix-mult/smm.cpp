@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <fstream>
 #include <iostream>
+#include <omp.h>
 #include <valarray>
 
 template <class T> struct matrix {
@@ -65,11 +66,14 @@ int32_t main(int32_t argc, char **argv) {
   }
 
   matrix<int32_t> c(a.r, b.c);
-
+#pragma omp parallel for shared(c) schedule(dynamic)
   for (size_t i = 0; i < a.r; ++i) {
-    for (size_t j = 0; j < b.c; ++j) {
-      for (size_t k = 0; k < a.c; ++k) {
-        c(i, j) = c(i, j) + a(i, k) * b(k, j);
+    for (size_t k = 0; k < a.c; ++k) {
+      int32_t r_elem = a(i, k);
+      if (r_elem != 0) {
+        for (size_t j = 0; j < b.c; ++j) {
+          c(i, j) += r_elem * b(k, j);
+        }
       }
     }
   }

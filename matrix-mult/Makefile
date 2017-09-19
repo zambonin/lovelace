@@ -1,5 +1,5 @@
 CFLAGS = -Wall -Wextra -O3 -DSTEP=16
-CXXFLAGS = -O2 -std=c++11 -Wall -Wextra
+CXXFLAGS = -Ofast -std=c++11 -Wall -Wextra -fopenmp
 
 all: $(basename $(wildcard *.c*))
 
