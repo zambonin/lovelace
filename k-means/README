@@ -1,0 +1,15 @@
+k-means clustering aims to partition `n` observations into `k` clusters in
+which each observation belongs to the cluster with the nearest mean. This
+results in a partitioning of the data space into Voronoi cells. Code based
+on [1]. A possible optimization consists in using a k-d tree to represent
+the centroids data.
+
+Usage:
+
+    $ python
+    >>> from kmeans import KMeans
+    >>> kmeans = KMeans(10, 2000) # number of clusters and points
+    >>> kmeans.find_centers()
+    >>> kmeans.plot_board()
+
+[1] https://datasciencelab.wordpress.com/2013/12/12/clustering-with-k-means-in-python/
