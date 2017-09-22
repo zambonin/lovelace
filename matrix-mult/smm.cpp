@@ -72,7 +72,10 @@ int32_t main(int32_t argc, char **argv) {
       int32_t r_elem = a(i, k);
       if (r_elem != 0) {
         for (size_t j = 0; j < b.c; ++j) {
-          c(i, j) += r_elem * b(k, j);
+          int32_t c_elem = b(k, j);
+          if (c_elem != 0) {
+            c(i, j) += r_elem * c_elem;
+          }
         }
       }
     }
