@@ -7,7 +7,7 @@
 ## Regras
 
 * O código deve ser mantido em Python 3
-* É proibido usar implementações prontas do algoritmo kNN de outras fontes ou bibliotecas
+* É proibido usar implementações prontas do algoritmo kNN de outras fontes ou bibliotecas (estilo sklearn.neighbors.NearestNeighbors)
 * É proibido buscar códigos similares da Internet ou de colegas
 * Códigos com resultados errados serão desconsiderados
 
