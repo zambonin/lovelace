@@ -1,0 +1,13 @@
+In pattern recognition, the k-nearest neighbors algorithm is a non-parametric
+method used for classification and regression. It can be useful to assign
+weight to the contributions of the neighbors, so that the nearer neighbors
+contribute more to the average than the more distant ones.
+
+Usage:
+
+    $ python
+    >>> from knn import KNN
+    >>> knn = KNN('tests/fisher_dataset.csv', 5) # example data and clusters
+    >>> knn.classify('tests/fisher_testset.csv')
+    ...
+    >>> knn.write_csv(_, '/path/to/file.csv')
