@@ -13,12 +13,6 @@ def open_csv(path):
         points = [[i[0]] + [float(k) for k in i[1:]] for i in data[1:]]
         return points, data[0]
 
-def norm(vector1, vector2):
-    distance = 0
-    for i, j in zip(vector1, vector2):
-        distance += pow(i - j, 2)
-    return sqrt(distance)
-
 
 class KNN():
     def __init__(self, path, K):
@@ -32,8 +26,12 @@ class KNN():
             _writer.writerows(data)
 
     def get_neighbors(self, item):
-        distances = [(line, norm(line[1:], item[1:]))
-                     for line in self.data]
+        distances = []
+        for line in self.data:
+            distance = 0
+            for i, j in zip(line[1:], item[1:]):
+                distance += (i - j) ** 2
+            distances.append((line, distance))
         distances.sort(key=itemgetter(1))
         return [distances[i][0] for i in range(self.nclu)]
 
