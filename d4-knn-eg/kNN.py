@@ -10,14 +10,6 @@ class kNN():
         self.K = K
         self.data, self.n_params, self.header = self._readData(input_file_name)
 
-    ''' Calcula a distância euclidiana entre dois itens '''
-    def _distance(self, item1, item2):
-        distance = 0
-        for i in range(1,self.n_params):
-            distance += pow(item1[i] - item2[i], 2)
-        distance = math.sqrt(distance)
-        return distance
-
     ''' Read Data: lê o input de um arquivo csv '''
     def _readData(self,file_name):
         with open(file_name, 'r') as csvfile:
@@ -41,14 +33,13 @@ class kNN():
         distances = []
         # Calcula distância para todos os itens no dataset
         for dataline in self.data:
-            distances.append((dataline, self._distance(dataline, item)))
+            distance = 0
+            for i in range(1, self.n_params):
+                distance += (dataline[i] - item[i]) ** 2
+            distances.append((dataline, distance))
         # Ordena os itens por distâncias
         distances.sort(key=operator.itemgetter(1))
-        nearest = []
-        # Pega os parâmetros todos dos K vizinhos mais próximos
-        for i in range(self.K):
-            nearest.append(distances[i][0])
-        return nearest
+        return [distances[i][0] for i in range(self.K)]
 
     ''' Classifica um item baseado nos tipos dos K vizinhos mais próximos '''
     def classify(self, item):
@@ -89,7 +80,3 @@ class kNN():
             # Escreve todas as linhas de dados
             for row in data:
                 writer.writerow(row)
-
-
-
-
