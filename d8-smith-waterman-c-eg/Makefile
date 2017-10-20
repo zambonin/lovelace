@@ -1,5 +1,5 @@
-CC    :=icc
-FLAGS :=-Wall -Ofast -funroll-loops
+CC    :=gcc
+FLAGS :=-Wall -O2
 OUT   :=sw
 
 .PHONY: all clean
