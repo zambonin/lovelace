@@ -1,3 +1,4 @@
+#include <omp.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,16 +11,23 @@ int32_t main(int32_t argc, char **argv) {
     exit(EXIT_FAILURE);
   }
 
-  uint64_t i = 0, n = strtoul(argv[1], NULL, 0), result = 0;
+  uint64_t i, n = strtoul(argv[1], NULL, 0), result = 0;
+  uint8_t *a = malloc(n * sizeof(uint8_t)), *b = malloc(n * sizeof(uint8_t));
   srandom(SEED);
 
-  int r1, r2;
-  while (i++ < n) {
-    r1 = random() % 100;
-    r2 = random() % 100;
-    result += (r1 < r2);
+  for (i = 0; i < n; ++i) {
+    a[i] = random() % 100;
+    b[i] = random() % 100;
   }
 
-  printf("random() %% 100 < random() %% 100 %ld times\n", result);
+#pragma omp parallel for shared(a, b) reduction(+:result)
+  for (i = 0; i < n; ++i) {
+    result += (a[i] < b[i]);
+  }
+
+  free(a);
+  free(b);
+
+  printf("a[i] < b[i] %ld times\n", result);
   exit(EXIT_SUCCESS);
 }
