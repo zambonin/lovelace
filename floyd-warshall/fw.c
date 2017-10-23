@@ -70,7 +70,7 @@ int32_t main(int32_t argc, char **argv) {
     exit(EXIT_FAILURE);
   }
 
-  FILE *input = fopen(argv[1], "r");
+  FILE *input = fopen(argv[1], "re");
   if (input == NULL) {
     printf("Missing file \"%s\"\n", argv[1]);
     exit(EXIT_FAILURE);
@@ -84,7 +84,7 @@ int32_t main(int32_t argc, char **argv) {
     printf("Matrix is too big!\n");
     exit(EXIT_FAILURE);
   }
-  memset(dists, UINT32_MAX, v * v * sizeof(uint32_t));
+  memset(dists, UINT32_MAX - 1, v * v * sizeof(uint32_t));
 
   for (i = 0; i < e; ++i) {
     fscanf(input, "%u %u %u", &source, &dest, &cost);

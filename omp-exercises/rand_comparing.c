@@ -20,7 +20,7 @@ int32_t main(int32_t argc, char **argv) {
     b[i] = random() % 100;
   }
 
-#pragma omp parallel for shared(a, b) reduction(+:result)
+#pragma omp parallel for shared(a, b) reduction(+ : result)
   for (i = 0; i < n; ++i) {
     result += (a[i] < b[i]);
   }

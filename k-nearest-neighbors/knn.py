@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from csv import reader, writer
+from csv import QUOTE_MINIMAL, reader, writer
 from math import sqrt
 from operator import itemgetter
 from sys import argv
@@ -21,7 +21,7 @@ class KNN():
 
     def write_csv(self, data, path):
         with open(path, 'w') as csvfile:
-            _writer = writer(csvfile)
+            _writer = writer(csvfile, dialect='unix', quoting=QUOTE_MINIMAL)
             _writer.writerow(self.header)
             _writer.writerows(data)
 

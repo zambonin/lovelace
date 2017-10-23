@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #define DEAD 0
@@ -27,13 +28,15 @@ void display(void *u, uint32_t w, uint32_t h) {
 
 void evolve(void *u, int32_t w, int32_t h) {
   uint32_t(*univ)[w] = u, new[h][w];
+  memset(new, 0, h * w * sizeof(uint32_t));
+
   int32_t x, y, x1, y1, chunk, num_chunks = w * h / (STEP * STEP),
                                chunks_in_row = h / STEP,
                                chunks_in_col = w / STEP;
 
-#pragma omp parallel for shared(u, univ, new) firstprivate(                    \
-    w, h, num_chunks, chunks_in_row,                                           \
-    chunks_in_col) private(x, x1, y, y1, chunk) schedule(static)
+#pragma omp parallel for shared(u, univ, new)                                  \
+    firstprivate(w, h, num_chunks, chunks_in_row,                              \
+                 chunks_in_col) private(x, x1, y, y1, chunk) schedule(static)
   for (chunk = 0; chunk < num_chunks; chunk++) {
     int32_t r_start = STEP * (chunk / chunks_in_col),
             c_start = STEP * (chunk % chunks_in_row),
@@ -159,7 +162,7 @@ int32_t main(int32_t argc, char **argv) {
     exit(EXIT_FAILURE);
   }
 
-  FILE *input = fopen(argv[1], "r");
+  FILE *input = fopen(argv[1], "re");
   if (input == NULL) {
     printf("Missing file \"%s\"\n", argv[1]);
     exit(EXIT_FAILURE);

@@ -13,7 +13,7 @@ int32_t main(int32_t argc, char **argv) {
 
   uint32_t v = strtoul(argv[1], NULL, 0), e = strtoul(argv[2], NULL, 0),
            max = strtoul(argv[3], NULL, 0), seed = strtoul(argv[4], NULL, 0);
-  FILE *output = fopen(argv[5], "w");
+  FILE *output = fopen(argv[5], "we");
 
   if (v == UINT32_MAX || e == UINT32_MAX || max == UINT32_MAX ||
       seed == UINT32_MAX || output == NULL) {

@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  FILE *file1 = fopen(argv[1], "r"), *file2 = fopen(argv[2], "r");
+  FILE *file1 = fopen(argv[1], "re"), *file2 = fopen(argv[2], "re");
   if (file1 == NULL || file2 == NULL) {
     printf("Couldn't open sequence file(s).\n");
     return 1;

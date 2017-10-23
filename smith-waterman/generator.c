@@ -9,7 +9,7 @@ int32_t main(int32_t argc, char **argv) {
   }
 
   uint32_t size = strtoul(argv[1], NULL, 0), seed = strtoul(argv[2], NULL, 0);
-  FILE *output = fopen(argv[3], "w");
+  FILE *output = fopen(argv[3], "we");
 
   if (size == UINT32_MAX || seed == UINT32_MAX || output == NULL) {
     printf("Invalid parameter(s).\n");

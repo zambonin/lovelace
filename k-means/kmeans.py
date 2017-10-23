@@ -57,5 +57,3 @@ class KMeans():
             self.nclu, self.npts))
         plt.tight_layout()
         plt.show()
-
-KMeans(10, 2000).find_centers()

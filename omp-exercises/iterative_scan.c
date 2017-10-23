@@ -69,7 +69,7 @@ int32_t main(int32_t argc, char **argv) {
   }
 
   uint64_t i = 0, n = strtoul(argv[1], NULL, 0);
-  uint32_t *vec = (uint32_t *)malloc(n * sizeof(uint32_t)),
+  uint32_t *vec = (uint32_t *)calloc(n, sizeof(uint32_t)),
            *res = (uint32_t *)malloc(n * sizeof(uint32_t));
 
   srandom(SEED);

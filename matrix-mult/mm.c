@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   }
 
   uint32_t size_power = strtol(argv[1], NULL, 0);
-  size_t side = (size_t)(1 << size_power);
+  size_t side = 1 << size_power;
   float *A = malloc(side * side * sizeof(float)),
         *B = malloc(side * side * sizeof(float)),
         *C = malloc(side * side * sizeof(float));
