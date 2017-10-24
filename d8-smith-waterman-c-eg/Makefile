@@ -1,5 +1,5 @@
 CC    :=gcc
-FLAGS :=-Wall -O2
+FLAGS :=-fopenmp -Wall -Ofast
 OUT   :=sw
 
 .PHONY: all clean

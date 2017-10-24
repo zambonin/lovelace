@@ -1,6 +1,6 @@
 #!/bin/bash
 TIMER="time -f %e"
-TESTS=3
+TESTS=2
 EXEC=sw
 for run in `seq ${TESTS}`;
 do

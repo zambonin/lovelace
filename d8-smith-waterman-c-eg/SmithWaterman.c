@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
 
 uint32_t read_file(const char* filename, char** buffer);
 int32_t compute_sw(const char* first_seq, const char* second_seq, uint32_t rows, uint32_t columns);
@@ -19,6 +20,11 @@ int32_t compute_sw(const char* first_seq, const char* second_seq, uint32_t rows,
     int_fast32_t up, diagonal, left, score, temp_score;
 
     // Computes the alignment scores
+    /* #pragma omp single */
+    /* { */
+
+/* #pragma omp set_num_threads(4) */
+    /* #pragma omp parallel for shared(max_score, temp_score, score_matrix, diagonal, up, left, score) */
     for (uint32_t i = 1; i < rows; ++i) {
         int_fast8_t first = first_seq[i-1];
         for (uint32_t j = 1; j < columns; ++j) {
@@ -41,7 +47,6 @@ int32_t compute_sw(const char* first_seq, const char* second_seq, uint32_t rows,
             }
         }
     }
-
     free(score_matrix);
 
     return max_score;
