@@ -1,0 +1,88 @@
+\documentclass[a4paper]{article}
+
+\usepackage{lmodern}
+
+\title{Shortest Superstring}
+
+\begin{document}
+
+\maketitle
+
+You shall submit a parallel implementation of an algorithm that solves the shortest superstring problem.
+A sequential algorithm and its implementation are provided.
+Details follow.
+
+\section{The Problem}
+The shortest superstring problem belongs to the NP-Hard class and is defined as follows: given a set of strings $S$ where no element is substring of another element, find the shortest string $s$ that contains each string in $S$ as substring.
+Formally, let $S = \{s_1, s_2, \dots, s_n\}$ be a set of strings such that
+$$
+    (\forall s_i, s_j \in S) s_i \not\subseteq s_j .
+$$
+Thus, the shortest substring problem is to find a string
+$$
+s \in S' = \{s' \mid (\forall s_i \in S) s_i \subseteq s'\} \quad \mbox{such that} \quad (\forall s' \in S') |s| \leq |s'| .
+$$
+
+For instance, consider the following set of strings:
+$$
+    S = \{\mbox{\tt CATGC}, \mbox{\tt CTAAGT}, \mbox{\tt GCTA}, \mbox{\tt TTCA}, \mbox{\tt ATGCATC}\} .
+$$
+The shortest string that contains all of the above strings as a substring is
+$$
+    s = \mbox{\tt GCTAAGTTCATGCATC}.
+$$
+
+\section{Proposed Solution}
+
+The proposed solution employs a greedy strategy over an operation called ``overlap'', described next.
+
+The \emph{overlap} operation over strings $a$ and $b$ is their concatenation $ab$ where the matching parts in the suffix of $a$ and the prefix of $b$ are merged.
+For instance, if $a = \mbox{\tt ABC}$ and $b = \mbox{\tt BCDE}$, the left overlap of $a$ and $b$ is $\mbox{\tt ABCDE}$.
+The overlap value of the operation is the size of the corresponding suffixes/prefixes of both strings.
+In the example, the overlap value is 2 ({\tt BC}).
+Order matters; the overlap operation and its respective overlap value are not commutative.
+
+With the overlap operation defined we can now show the greedy algorithm that solves the problem at hand.
+Its idea is simple; at each step we replace the two strings whose resulting overlap value would be the highest by the result of their overlap.
+At the end, we have the shortest superstring:
+\begin{enumerate}
+    \item Let $T$ be a copy of $S$.
+    \item While $|T| > 1$ do:
+        \begin{enumerate}
+            \item let $a$ and $b$ be the two strings that yield the highest overlap value;
+            \item pop $a$ and $b$ from $T$ and insert the string obtained by overlapping $a$ and $b$.
+        \end{enumerate}
+\end{enumerate}
+Now the only element of $T$ is the shortest superstring containing as substrings all strings of $S$.
+
+It is important to notice the overlap of strings $x$ and $y$ is probably not the same as the overlap of strings $y$ and $x$ because of the its aforementioned lack of commutativity.
+Thus, both configurations must be evaluated for each pair of strings taken into account and its order preserved.
+
+\section{Input/Output Format}
+
+\emph{The problem's input must be read from the system's standard input.}
+The first line contains the number $n$ of strings to be read and processed.
+Each of the following $n$ lines of the input contains a string at at most 256 ASCII characters.
+All the characters are readable and there are no blanks.
+
+\emph{The problem's output must be read from the system's standard output.}
+It is a single line containing the shortest superstring that contains all strings from the input.
+
+Example:
+\begin{center}
+    \begin{tabular}{|p{.45\textwidth}|p{.45\textwidth}|}
+        \hline
+        Input            & Output                    \\
+        $~$              & $~$                       \\
+        \texttt{5}       & \texttt{GCTAAGTTCATGCATC} \\
+        \texttt{CATG}    &                           \\
+        \texttt{CTAAGT}  &                           \\
+        \texttt{GCTA}    &                           \\
+        \texttt{TTCA}    &                           \\
+        \texttt{ATGCATC} &                           \\
+        $~$              & $~$                       \\
+        \hline
+    \end{tabular}
+\end{center}
+\end{document}
+

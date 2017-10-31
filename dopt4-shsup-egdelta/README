@@ -1,0 +1,36 @@
+REQUIRES
+- latexmk (w/pdflatex backend)
+- g++ 4.8+ or equ. clang
+- time (GNU/POSIX)
+
+COMPILING
+
+The program employs C++11 features.
+The Makefile already provides the g++ compliante -std=c++11.
+If your compiler uses another parameter to enable it, please change it accordingly.
+
+- make all : builds binaries shsup and ingen, and problem description shortest_superstring.pdf
+- make bin : builds binaries shsup and ingen
+- make doc : builds problem description shortest_superstring.pdf
+- make test : runs binary shsup over the example input file
+- make clean : cleans all generated files
+
+RUNNING THE PROGRAM
+- shsup < xxx.txt
+    Runs over input file xxx.txt.
+
+Input and output's format is described at the shortest_superstring.pdf file, generated along with the binary.
+
+INPUT GENERATOR
+
+Builds an input file for shsup using all the permutations of a given string given as its own input.
+
+- ingen < xxx.txt
+    Runs over input file xxx.txt.
+
+The input is a string with all characters used to build shsup's input.
+The output is input text for shsup built by permuttating all letters on the given input string.
+
+The eval input file, for instance, was generated using:
+./ingen <<< "ABCDE"
+
