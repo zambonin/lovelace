@@ -1,6 +1,8 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <set>
+#include <vector>
 
 auto is_prefix(const std::string &a, const std::string &b) -> bool {
   if (a.size() > b.size()) {
@@ -20,27 +22,20 @@ inline auto remove_prefix(const std::string &x, std::string::size_type n)
   return x;
 }
 
-auto all_suffixes(const std::string &x) -> std::set<std::string> {
-  std::set<std::string> ss;
-  std::string::size_type n = x.size();
-  while (--n != 0u) {
-    ss.insert(x.substr(n));
-  }
-  return ss;
-}
-
 auto common_suffix_and_prefix(const std::string &a, const std::string &b)
     -> std::string {
   if (a.empty() || b.empty()) {
     return "";
   }
   std::string x;
-  for (const std::string &s : all_suffixes(a)) {
-    if (is_prefix(s, b) && s.size() > x.size()) {
-      x = s;
+  std::string::size_type n = a.size();
+  while (--n != 0u) {
+    x = a.substr(n);
+    if (is_prefix(x, b)) {
+      return x;
     }
   }
-  return x;
+  return "";
 }
 
 inline auto overlap_value(const std::string &s, const std::string &t)
@@ -69,13 +64,16 @@ auto all_distinct_pairs(const std::set<std::string> &ss)
 auto highest_overlap_value(
     const std::set<std::pair<std::string, std::string>> &sp)
     -> std::pair<std::string, std::string> {
-  std::pair<std::string, std::string> x = *(sp.begin());
-  for (const std::pair<std::string, std::string> &p : sp) {
-    if (overlap_value(p.first, p.second) > overlap_value(x.first, x.second)) {
-      x = p;
-    }
+  std::vector<std::pair<std::string, std::string>> spp{};
+  std::copy(sp.begin(), sp.end(), std::back_inserter(spp));
+
+  std::vector<std::string::size_type> values{};
+  for (unsigned int i = 0; i < spp.size(); ++i) {
+    values.emplace_back(overlap_value(spp[i].first, spp[i].second));
   }
-  return x;
+
+  auto result = std::max_element(values.begin(), values.end());
+  return spp[std::distance(values.begin(), result)];
 }
 
 auto shortest_superstring(std::set<std::string> t) -> std::string {
