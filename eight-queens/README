@@ -1,0 +1,7 @@
+The `n` queens problem consist of placing `n` non-attacking queens on an
+chessboard of side `n`. This code counts all possible solutions for boards
+of size up to 32.
+
+Usage:
+
+    $ ./nq <board size>
