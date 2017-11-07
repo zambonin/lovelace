@@ -1,10 +1,10 @@
-CC=g++
+CC=clang++
 OUT=nqueens
 
 all: $(OUT) debug
 
 $(OUT): nqueens.cc
-	$(CC) -o $(OUT) nqueens.cc -O2 -std=c++11
+	$(CC) -o $(OUT) nqueens.cc -Ofast -std=c++11
 
 debug: nqueens.cc
 	$(CC) -o $(OUT).debug nqueens.cc -O2 -std=c++11 -DDEBUG=665
