@@ -1,0 +1,6 @@
+module charming_sum {
+  array[1D] charming_sum {
+    entry charming_sum();
+    entry void sum_neighbors(int);
+  };
+};

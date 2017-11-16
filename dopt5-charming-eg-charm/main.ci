@@ -1,0 +1,10 @@
+mainmodule main {
+  readonly CProxy_Main mainProxy;
+  readonly int n_chares;
+  extern module charming_sum;
+
+  mainchare Main {
+    entry Main(CkArgMsg * msg);
+    entry void exit();
+  };
+};
