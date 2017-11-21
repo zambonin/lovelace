@@ -9,8 +9,8 @@ EXEC=raytracer
 all: $(EXEC)
 
 $(EXEC):
-	$(CXX) $(FLAGS) $(EXEC).cpp -c -o $(EXEC).o
-	$(CXX) $(FLAGS) $(EXEC).o -o $(EXEC)
+	$(CXX) $(FLAGS) $(EXEC).cpp -c -o $(EXEC).o -fopenmp
+	$(CXX) $(FLAGS) $(EXEC).o -o $(EXEC) -fopenmp
 
 clean:
 	$(RM) $(EXEC).o $(EXEC)
