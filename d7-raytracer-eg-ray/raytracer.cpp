@@ -30,6 +30,8 @@
 #include <cstring>
 #include <sys/time.h>
 
+#include <omp.h>
+
 #if defined __linux__ || defined __APPLE__
 // "Compiled for Linux
 #else
@@ -225,13 +227,14 @@ void render(Vec3f* image, unsigned width, unsigned height, const std::vector<Sph
     float fov = 30, aspectratio = width / float(height);
     float angle = tan(M_PI * 0.5 * fov / 180.);
     // Trace rays
+#pragma omp parallel for
     for (unsigned y = 0; y < height; ++y) {
-        for (unsigned x = 0; x < width; ++x, ++pixel) {
+        for (unsigned x = 0; x < width; ++x) {
             float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
             float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
             Vec3f raydir(xx, yy, -1);
             raydir.normalize();
-            *pixel = trace(Vec3f(0), raydir, spheres, 0);
+            pixel[y * width + x] = trace(Vec3f(0), raydir, spheres, 0);
         }
     }
 }
@@ -286,7 +289,7 @@ int main(int argc, char **argv)
 
     save(image, width, height);
 
-		delete image;
+    delete image;
 
     return 0;
 }
