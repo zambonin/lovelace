@@ -1,4 +1,4 @@
-FLAGS=-O2
+FLAGS=-Ofast -fsigned-zeros -fopenmp
 
 CXX=g++
 
