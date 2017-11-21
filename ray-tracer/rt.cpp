@@ -1,6 +1,7 @@
 #include "structures.h"
 
 #include <fstream>
+#include <omp.h>
 #include <vector>
 
 #define MAX_RAY_DEPTH 5
@@ -78,6 +79,7 @@ std::vector<vector3<float>> render(uint32_t width, uint32_t height,
   float inv_width = 1 / float(width), inv_height = 1 / float(height), fov = 30,
         aspect_ratio = width / float(height), angle = tan(M_PI * fov / 360.);
 
+#pragma omp parallel for
   for (uint32_t y = 0; y < height; ++y) {
     for (uint32_t x = 0; x < width; ++x) {
       float xx = (2 * ((x + 0.5) * inv_width) - 1) * angle * aspect_ratio;
