@@ -1,3 +1,5 @@
 The subset sum problem can be defined as follows: given a set S of integers,
 is there a non-empty subset of S such that its sum equals zero? It is a
 special case of the knapsack problem.
+
+Original assignment: a127ebbfe9fcac48492786a0401125dd9532f8a8

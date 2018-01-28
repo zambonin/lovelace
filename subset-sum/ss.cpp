@@ -16,16 +16,17 @@ std::vector<uint32_t> gen_random_set(uint32_t size, uint32_t max_value,
   return num_set;
 }
 
-uint32_t subset_sum(std::vector<uint32_t>::iterator element,
-                    std::vector<uint32_t>::iterator end, uint32_t acc_value,
-                    uint32_t objective) {
-  uint32_t total_subsets = 0, current_value = acc_value + *element;
+uint32_t subset_sum(uint32_t element, uint32_t end, uint32_t acc_value,
+                    uint32_t objective, const std::vector<uint32_t>& num_set) {
+  uint32_t total_subsets = 0, current_value = acc_value + num_set[element], i;
 
   if (current_value == objective) {
     ++total_subsets;
+  } else if (current_value > objective) {
+    return total_subsets;
   } else {
-    for (auto next = ++element; next != end; ++next) {
-      total_subsets += subset_sum(next, end, current_value, objective);
+    for (i = element + 1; i < end; ++i) {
+      total_subsets += subset_sum(i, end, current_value, objective, num_set);
     }
   }
 
@@ -33,11 +34,10 @@ uint32_t subset_sum(std::vector<uint32_t>::iterator element,
 }
 
 uint32_t compute_subsets(std::vector<uint32_t> num_set, uint32_t objective) {
-  uint32_t result = 0;
+  uint32_t result = 0, i;
 
-  for (auto init_value = num_set.begin(); init_value != num_set.end();
-       ++init_value) {
-    result += subset_sum(init_value, num_set.end(), 0, objective);
+  for (i = 0; i < num_set.size(); ++i) {
+    result += subset_sum(i, num_set.size(), 0, objective, num_set);
   }
 
   return result;
