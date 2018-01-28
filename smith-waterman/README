@@ -1,8 +1,14 @@
 The Smith-Waterman algorithm performs local sequence alignment. It compares
 segments of all possible lengths and optimizes the similarity measure.
+A possible optimization is to implement a parallel version of this algorithm,
+as seen in [1].
 
 Generate a pair of sequences and pass them as arguments to the algorithm, e.g.:
 
-    $ ./generator 5000 $(RANDOM) > base1
-    $ ./generator 5000 $(RANDOM) > base2
+    $ ./generator 5000 $RANDOM > base1
+    $ ./generator 5000 $RANDOM > base2
     $ ./sw base{1,2}
+
+Original assignment: a42c8fa311c1b6c11bcbdc9197bbcb7133a9fdd7
+
+[1] https://doi.org/10.1109/IEMBS.2004.1403804
