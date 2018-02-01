@@ -1,7 +1,9 @@
 The `n` queens problem consist of placing `n` non-attacking queens on an
 chessboard of side `n`. This code counts all possible solutions for boards
-of size up to 32.
+of size up to 32. Bitwise implementation ported from MCPL [1].
 
 Usage:
 
     $ ./nq <board size>
+
+[1] http://www.cl.cam.ac.uk/~mr10/backtrk.pdf
