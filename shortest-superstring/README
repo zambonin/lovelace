@@ -2,9 +2,16 @@ The shortest superstring problem belongs to the NP-hard class and is defined
 as follows: given a set of strings S where no element is substring of another
 element, find the shortest string that contains each string in S as substring.
 
+A possible optimization is based on generating C(n, 2) combinations with a
+faster algorithm, and dropping the vector holding the overlap values. Note
+that the tests may not pass since the algorithm can find shorter superstrings
+than the original code.
+
 Code sourced from the 2017 Parallel Programming Marathon (SBAC-PAD).
 
 Usage:
 
     $ ./generator <alphanumeric string> > words
     $ ./shs words
+
+Original assignment: 98432632be61cb631411873c37547e982a3f0b1b

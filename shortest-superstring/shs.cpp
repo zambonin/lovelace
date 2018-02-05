@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <omp.h>
 #include <set>
 #include <vector>
 
@@ -48,32 +49,38 @@ auto overlap(const std::string &s, const std::string &t) -> std::string {
   return s + remove_prefix(t, c.size());
 }
 
-auto all_distinct_pairs(const std::set<std::string> &ss)
-    -> std::set<std::pair<std::string, std::string>> {
-  std::set<std::pair<std::string, std::string>> x;
-  for (const std::string &s1 : ss) {
-    for (const std::string &s2 : ss) {
-      if (s1 != s2) {
-        x.insert(make_pair(s1, s2));
+auto pair_of_strings_with_highest_overlap_value(const std::set<std::string> &sp)
+    -> std::pair<std::string, std::string> {
+  std::vector<std::string> spp{};
+  std::copy(sp.begin(), sp.end(), std::back_inserter(spp));
+  std::vector<std::pair<std::string, std::string>> pairs{};
+  std::vector<std::string::size_type> values{};
+
+#pragma omp declare reduction (merge_pairs \
+    : std::vector<std::pair<std::string, std::string>> \
+    : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end()))
+#pragma omp declare reduction (merge_values \
+    : std::vector<std::string::size_type> \
+    : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end()))
+#pragma omp parallel for reduction(merge_pairs : pairs) \
+  reduction(merge_values : values) schedule(dynamic)
+  for (size_t i = 0; i < spp.size(); ++i) {
+    for (size_t j = i + 1; j < spp.size(); ++j) {
+      auto w1 = spp[i], w2 = spp[j];
+      auto _overlap = overlap_value(w1, w2);
+      auto inverse = overlap_value(w2, w1);
+      if (inverse > _overlap) {
+        pairs.push_back(make_pair(w2, w1));
+        values.push_back(inverse);
+      } else {
+        pairs.push_back(make_pair(w1, w2));
+        values.push_back(_overlap);
       }
     }
   }
-  return x;
-}
-
-auto highest_overlap_value(
-    const std::set<std::pair<std::string, std::string>> &sp)
-    -> std::pair<std::string, std::string> {
-  std::vector<std::pair<std::string, std::string>> spp{};
-  std::copy(sp.begin(), sp.end(), std::back_inserter(spp));
-
-  std::vector<std::string::size_type> values{};
-  for (unsigned int i = 0; i < spp.size(); ++i) {
-    values.emplace_back(overlap_value(spp[i].first, spp[i].second));
-  }
 
   auto result = std::max_element(values.begin(), values.end());
-  return spp[std::distance(values.begin(), result)];
+  return pairs[std::distance(values.begin(), result)];
 }
 
 auto shortest_superstring(std::set<std::string> t) -> std::string {
@@ -81,7 +88,7 @@ auto shortest_superstring(std::set<std::string> t) -> std::string {
     return "";
   }
   while (t.size() > 1) {
-    auto p = highest_overlap_value(all_distinct_pairs(t));
+    auto p = pair_of_strings_with_highest_overlap_value(t);
     t.erase(p.first);
     t.erase(p.second);
     t.insert(overlap(p.first, p.second));
@@ -104,6 +111,7 @@ auto main(int32_t argc, char **argv) -> int32_t {
   while (file >> word) {
     ss.insert(word);
   }
+  file.close();
 
   std::cout << shortest_superstring(ss) << std::endl;
   exit(EXIT_SUCCESS);
