@@ -65,7 +65,7 @@ void scan(uint32_t *vec, uint32_t *result, uint64_t size, char operator) {
 int32_t main(int32_t argc, char **argv) {
   if (argc < 3) {
     printf("Usage: %s <positive number> [+-*^]\n", argv[0]);
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   uint64_t i = 0, n = strtoul(argv[1], NULL, 0);
@@ -87,5 +87,5 @@ int32_t main(int32_t argc, char **argv) {
   free(vec);
   free(res);
 
-  exit(EXIT_SUCCESS);
+  return 0;
 }

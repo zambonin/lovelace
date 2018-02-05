@@ -8,7 +8,7 @@ int32_t main(int32_t argc, char **argv) {
     printf("Missing parameters.\nUsage: %s [#vertices] [#edges] [#max cost] "
            "[rand seed] [output file name]\n",
            argv[0]);
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   uint32_t v = strtoul(argv[1], NULL, 0), e = strtoul(argv[2], NULL, 0),
@@ -18,7 +18,7 @@ int32_t main(int32_t argc, char **argv) {
   if (v == UINT32_MAX || e == UINT32_MAX || max == UINT32_MAX ||
       seed == UINT32_MAX || output == NULL) {
     printf("Invalid parameter(s).\n");
-    exit(1);
+    return 1;
   }
 
   fprintf(output, "%u %u\n", v, e);
@@ -33,5 +33,5 @@ int32_t main(int32_t argc, char **argv) {
   }
 
   fclose(output);
-  exit(EXIT_SUCCESS);
+  return 0;
 }

@@ -5,7 +5,7 @@
 int32_t main(int32_t argc, char **argv) {
   if (argc < 4) {
     printf("Usage: %s [sequence size] [rand seed] [output file]\n", argv[0]);
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   uint32_t size = strtoul(argv[1], NULL, 0), seed = strtoul(argv[2], NULL, 0);
@@ -13,7 +13,7 @@ int32_t main(int32_t argc, char **argv) {
 
   if (size == UINT32_MAX || seed == UINT32_MAX || output == NULL) {
     printf("Invalid parameter(s).\n");
-    exit(1);
+    return 1;
   }
 
   srandom(seed);
@@ -28,5 +28,5 @@ int32_t main(int32_t argc, char **argv) {
   fprintf(output, "%s\n", str);
   fclose(output);
 
-  exit(EXIT_SUCCESS);
+  return 0;
 }

@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     printf("Usage: %s <sq. matrix side>\n", argv[0]);
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   uint32_t size_power = strtol(argv[1], NULL, 0);
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 
   if (A == NULL || B == NULL || C == NULL) {
     printf("Matrices are too big!");
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   size_t i, j, k, jj, kk;

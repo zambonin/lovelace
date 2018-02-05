@@ -35,13 +35,13 @@ void print_solution(uint32_t *dists, uint32_t v) {
 int32_t main(int32_t argc, char **argv) {
   if (argc < 2) {
     printf("Missing input filename.\n");
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   FILE *input = fopen(argv[1], "re");
   if (input == NULL) {
     printf("Missing file \"%s\"\n", argv[1]);
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   uint32_t v, e;
@@ -50,7 +50,7 @@ int32_t main(int32_t argc, char **argv) {
   uint32_t *dists = malloc(v * v * sizeof(uint32_t)), source, dest, cost, i;
   if (dists == NULL) {
     printf("Matrix is too big!\n");
-    exit(EXIT_FAILURE);
+    return 1;
   }
   memset(dists, UINT32_MAX - 1, v * v * sizeof(uint32_t));
 
@@ -69,5 +69,5 @@ int32_t main(int32_t argc, char **argv) {
   floyd_warshall(dists, v);
   print_solution(dists, v);
   free(dists);
-  exit(EXIT_SUCCESS);
+  return 0;
 }

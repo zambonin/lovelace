@@ -99,7 +99,7 @@ auto shortest_superstring(std::set<std::string> t) -> std::string {
 auto main(int32_t argc, char **argv) -> int32_t {
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " input_file" << std::endl;
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   std::ifstream file(argv[1]);
@@ -114,5 +114,5 @@ auto main(int32_t argc, char **argv) -> int32_t {
   file.close();
 
   std::cout << shortest_superstring(ss) << std::endl;
-  exit(EXIT_SUCCESS);
+  return 0;
 }

@@ -14,7 +14,7 @@ inline auto all_permutations(std::string s) -> std::set<std::string> {
 int32_t main(int32_t argc, char **argv) {
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " string" << std::endl;
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   std::set<std::string> ss = all_permutations(argv[1]);
@@ -24,5 +24,5 @@ int32_t main(int32_t argc, char **argv) {
     std::cout << s << std::endl;
   }
 
-  exit(EXIT_SUCCESS);
+  return 0;
 }

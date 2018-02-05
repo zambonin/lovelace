@@ -2,4 +2,6 @@ Ray tracing is a rendering technique for generating an image by tracing the
 path of light as pixels in an image plane and simulating the effects of its
 encounters with virtual objects. Code based on [1].
 
+Original assignment: 93f59ba67911fb8395ea9a2328ca580ec5b40856
+
 [1] https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes

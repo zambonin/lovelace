@@ -107,7 +107,7 @@ void write_ppm(uint32_t width, uint32_t height,
 int32_t main(int32_t argc, char **argv) {
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " input_file" << std::endl;
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   std::ifstream file(argv[1]);
@@ -132,5 +132,5 @@ int32_t main(int32_t argc, char **argv) {
 
   write_ppm(width, height, render(width, height, spheres));
 
-  return EXIT_SUCCESS;
+  return 0;
 }

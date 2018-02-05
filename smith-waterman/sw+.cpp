@@ -35,7 +35,7 @@ uint32_t smith_waterman(const std::string &seq1, const std::string &seq2,
 int32_t main(int32_t argc, char **argv) {
   if (argc < 3) {
     std::cout << "Usage: " << argv[0] << " seqfile1 seqfile2" << std::endl;
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   std::ifstream f1(argv[1]), f2(argv[2]);
@@ -45,5 +45,5 @@ int32_t main(int32_t argc, char **argv) {
 
   std::cout << "Max Score is " << smith_waterman(seq1, seq2, 2, -1, -1)
             << std::endl;
-  exit(EXIT_SUCCESS);
+  return 0;
 }

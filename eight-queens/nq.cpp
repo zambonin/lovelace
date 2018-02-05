@@ -17,10 +17,10 @@ int32_t solve_nqueens(uint32_t ld, uint32_t col, uint32_t rd, uint32_t mask) {
 int32_t main(int32_t argc, char **argv) {
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " board_side" << std::endl;
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   uint32_t mask = (1 << std::stoul(argv[1])) - 1;
   std::cout << "Solutions = " << solve_nqueens(0, 0, 0, mask) << std::endl;
-  exit(EXIT_SUCCESS);
+  return 0;
 }

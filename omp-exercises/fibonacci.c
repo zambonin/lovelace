@@ -26,7 +26,7 @@ uint64_t fib(uint32_t n) {
 int32_t main(int32_t argc, char **argv) {
   if (argc < 2) {
     printf("Usage: %s <positive number>\n", argv[0]);
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   uint32_t n = strtoul(argv[1], NULL, 0);
@@ -37,5 +37,5 @@ int32_t main(int32_t argc, char **argv) {
   result = fib(n);
 
   printf("fibonacci(%d) = %ld\n", n, result);
-  exit(EXIT_SUCCESS);
+  return 0;
 }

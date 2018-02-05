@@ -159,17 +159,19 @@ uint32_t game(uint32_t w, uint32_t h, uint32_t max_iterations, uint32_t seed) {
 int32_t main(int32_t argc, char **argv) {
   if (argc < 2) {
     printf("Missing input filename.\n");
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   FILE *input = fopen(argv[1], "re");
   if (input == NULL) {
     printf("Missing file \"%s\"\n", argv[1]);
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   uint32_t w, h, iter, seed;
   fscanf(input, "%u %u %u %u", &iter, &w, &h, &seed);
+  fclose(input);
 
   printf("%u\n", game(w, h, iter, seed));
+  return 0;
 }

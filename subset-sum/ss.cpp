@@ -48,7 +48,7 @@ int32_t main(int32_t argc, char **argv) {
     std::cerr << "Usage: " << argv[0]
               << " [#items] [max item value] [desired sum] [rand seed]"
               << std::endl;
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   std::vector<uint32_t> num_set = gen_random_set(
@@ -57,5 +57,5 @@ int32_t main(int32_t argc, char **argv) {
 
   std::cout << "Number of subsets = " << compute_subsets(num_set, objective)
             << std::endl;
-  exit(EXIT_SUCCESS);
+  return 0;
 }

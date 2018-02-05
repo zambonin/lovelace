@@ -40,13 +40,13 @@ uint32_t smith_waterman(const char *seq1, const char *seq2) {
 int32_t main(int32_t argc, char **argv) {
   if (argc < 3) {
     printf("Usage: %s seqfile1 seqfile2\n", argv[0]);
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   FILE *file1 = fopen(argv[1], "re"), *file2 = fopen(argv[2], "re");
   if (file1 == NULL || file2 == NULL) {
     printf("Couldn't open sequence file(s).\n");
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   size_t len1 = 0, len2 = 0;
@@ -63,5 +63,5 @@ int32_t main(int32_t argc, char **argv) {
   printf("Max Score is %u\n", smith_waterman(seq1, seq2));
   free(seq1);
   free(seq2);
-  exit(EXIT_SUCCESS);
+  return 0;
 }
