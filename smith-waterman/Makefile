@@ -9,9 +9,10 @@ debug: CFLAGS += -g
 debug: CXXFLAGS += -g
 debug: all
 
-test: all
-	@$(foreach p,""  +,$(foreach t,1 2,\
-		./sw$p $(wildcard tests/*$(t).in) | cmp -s tests/$(t).out -;))
+test: $(addsuffix .test, $(basename $(wildcard tests/*.in*)))
+%.test: %.in1 %.in2 %.out /usr/bin/cmp all
+	./sw $< $(word 2, $?) | cmp -s $(word 3, $?) -
+	./sw+ $< $(word 2, $?) | cmp -s $(word 3, $?) -
 
 clean:
 	rm $(basename $(wildcard *.c*))

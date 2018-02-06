@@ -1,4 +1,5 @@
-CXXFLAGS = -Wall -Wextra -Ofast
+CXX = clang++
+CXXFLAGS = -Wall -Wextra -Ofast -std=c++11
 SHELL = /bin/bash
 
 all: $(basename $(wildcard *.cpp))
@@ -7,10 +8,10 @@ debug: CXXFLAGS += -g
 debug: all
 
 test: /usr/bin/cmp all
-	@./nq 8 | cmp -s <(echo "Solutions = 92")
-	@./nq 4 | cmp -s <(echo "Solutions = 2")
-	@./nq 3 | cmp -s <(echo "Solutions = 0")
-	@./nq 12 | cmp -s <(echo "Solutions = 14200")
+	cmp -s <(./nq 8) <(echo "Solutions = 92")
+	cmp -s <(./nq 4) <(echo "Solutions = 2")
+	cmp -s <(./nq 3) <(echo "Solutions = 0")
+	cmp -s <(./nq 12) <(echo "Solutions = 14200")
 
 clean:
-	@rm $(basename $(wildcard *.cpp))
+	rm $(basename $(wildcard *.cpp))

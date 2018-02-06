@@ -7,7 +7,7 @@ debug: all
 
 test: $(addsuffix .test, $(basename $(wildcard tests/*.in)))
 %.test: %.in %.out /usr/bin/cmp all
-	@./shs $< | cmp -s $(word 2, $?) -
+	./shs $< | cmp -s $(word 2, $?) -
 
 clean:
 	rm $(basename $(wildcard *.cpp))

@@ -1,6 +1,6 @@
 TMPFILE := $(shell mktemp)
 
-all: test
+all:
 
 test: fisher average
 
