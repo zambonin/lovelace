@@ -22,7 +22,7 @@ void print_solution(uint32_t *dists, uint32_t v) {
   printf("All pair shortest distances\n");
   for (uint32_t i = 0; i < v; ++i) {
     for (uint32_t j = 0; j < v; ++j) {
-      if ((int)dists[i * v + j] < 0) {
+      if ((int32_t)dists[i * v + j] < 0) {
         printf("%7s", "inf");
       } else {
         printf("%7u", dists[i * v + j]);

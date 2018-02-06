@@ -1,4 +1,4 @@
-CXXFLAGS = -Wall -Wextra -Ofast -std=c++11 -fsigned-zeros -fopenmp
+CXXFLAGS = -Wall -Wextra -Ofast -std=c++11 -fsigned-zeros -fopenmp -I.
 
 all: $(basename $(wildcard *.cpp))
 

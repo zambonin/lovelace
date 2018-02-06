@@ -62,18 +62,20 @@ auto pair_of_strings_with_highest_overlap_value(const std::set<std::string> &sp)
 #pragma omp declare reduction (merge_values \
     : std::vector<std::string::size_type> \
     : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end()))
-#pragma omp parallel for reduction(merge_pairs : pairs) \
-  reduction(merge_values : values) schedule(dynamic)
+#pragma omp parallel for reduction(merge_pairs                                 \
+                                   : pairs) reduction(merge_values             \
+                                                      : values)                \
+    schedule(dynamic)
   for (size_t i = 0; i < spp.size(); ++i) {
     for (size_t j = i + 1; j < spp.size(); ++j) {
       auto w1 = spp[i], w2 = spp[j];
       auto _overlap = overlap_value(w1, w2);
       auto inverse = overlap_value(w2, w1);
       if (inverse > _overlap) {
-        pairs.push_back(make_pair(w2, w1));
+        pairs.emplace_back(w2, w1);
         values.push_back(inverse);
       } else {
-        pairs.push_back(make_pair(w1, w2));
+        pairs.emplace_back(w1, w2);
         values.push_back(_overlap);
       }
     }

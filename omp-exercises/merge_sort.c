@@ -28,7 +28,7 @@ void mergesort(uint32_t *vec, uint32_t *temp, uint32_t size) {
     return;
   }
 
-  int half = size / 2;
+  uint32_t half = size / 2;
 #pragma omp task shared(vec) firstprivate(temp, half, size) if (size > TASKS)
   mergesort(vec, temp, half);
 #pragma omp task shared(vec) firstprivate(temp, half, size) if (size > TASKS)

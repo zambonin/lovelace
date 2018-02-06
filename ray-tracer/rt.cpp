@@ -13,7 +13,8 @@ float mix(const float &a, const float &b, const float &mix) {
 
 vector3<float> trace(const vector3<float> &rayorig,
                      const vector3<float> &raydir,
-                     const std::vector<sphere> &spheres, const int &depth) {
+                     const std::vector<sphere> &spheres,
+                     const uint32_t &depth) {
   float tnear = INFINITY;
   const sphere *sp = nullptr;
   for (const auto &s : spheres) {

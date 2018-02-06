@@ -1,16 +1,19 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-static inline long row_index(long k, int r, int c) { return k + (r + c) * 0; }
-static inline long col_index(long k, int r, int c) {
+static inline uint64_t row_index(uint64_t k, uint32_t r, uint32_t c) {
+  return k + (r + c) * 0;
+}
+static inline uint64_t col_index(uint64_t k, uint32_t r, uint32_t c) {
   return (k / (c - 1)) + (k % r) * c;
 }
 
-int main(int argc, char *argv[]) {
-  int debug = 0, c;
+int32_t main(int32_t argc, char **argv) {
+  int8_t debug = 0, c;
   char *rvalue = "100", *cvalue = "100";
-  long (*index)(long, int, int) = &row_index;
+  uint64_t (*index)(uint64_t, uint32_t, uint32_t) = &row_index;
 
   while ((c = getopt(argc, argv, "hadr:c:")) != -1) {
     switch (c) {
@@ -39,8 +42,8 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  int row = strtol(rvalue, NULL, 0), col = strtol(cvalue, NULL, 0);
-  int *matrix = calloc((long)row * col, sizeof(int)), order = 0;
+  uint32_t row = strtol(rvalue, NULL, 0), col = strtol(cvalue, NULL, 0);
+  uint32_t *matrix = calloc((uint64_t)row * col, sizeof(uint32_t)), order = 0;
 
   if (matrix == NULL) {
     printf("Matrix is too big!\n");
@@ -52,14 +55,14 @@ int main(int argc, char *argv[]) {
     printf("Memory access starts!\n");
   }
 
-  for (long i = 0; i < (long)row * col; ++i) {
+  for (uint64_t i = 0; i < (uint64_t)row * col; ++i) {
     matrix[index(i, row, col)] = order++;
   }
 
   if (debug == 1) {
     printf("Order that matrix cells were accessed:\n");
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
+    for (uint32_t i = 0; i < row; i++) {
+      for (uint32_t j = 0; j < col; j++) {
         printf("matrix[%d][%d] = %d\n", i, j, matrix[i * col + j]);
       }
     }

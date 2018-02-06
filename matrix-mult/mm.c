@@ -2,19 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char *argv[]) {
+int32_t main(int32_t argc, char **argv) {
   if (argc < 2) {
     printf("Usage: %s <sq. matrix side>\n", argv[0]);
     return 1;
   }
 
-  uint32_t size_power = strtol(argv[1], NULL, 0);
+  uint16_t size_power = strtol(argv[1], NULL, 0);
   size_t side = 1 << size_power;
-  float *A = malloc(side * side * sizeof(float)),
-        *B = malloc(side * side * sizeof(float)),
-        *C = malloc(side * side * sizeof(float));
+  float *A = calloc(side * side, sizeof(float)),
+        *B = calloc(side * side, sizeof(float)),
+        *C = calloc(side * side, sizeof(float));
 
-  if (A == NULL || B == NULL || C == NULL) {
+  if (C == NULL) {
+    free(A);
+    free(B);
     printf("Matrices are too big!");
     return 1;
   }

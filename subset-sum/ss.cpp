@@ -17,7 +17,7 @@ std::vector<uint32_t> gen_random_set(uint32_t size, uint32_t max_value,
 }
 
 uint32_t subset_sum(uint32_t element, uint32_t end, uint32_t acc_value,
-                    uint32_t objective, const std::vector<uint32_t>& num_set) {
+                    uint32_t objective, const std::vector<uint32_t> &num_set) {
   uint32_t total_subsets = 0, current_value = acc_value + num_set[element], i;
 
   if (current_value == objective) {
@@ -33,7 +33,8 @@ uint32_t subset_sum(uint32_t element, uint32_t end, uint32_t acc_value,
   return total_subsets;
 }
 
-uint32_t compute_subsets(std::vector<uint32_t> num_set, uint32_t objective) {
+uint32_t compute_subsets(const std::vector<uint32_t> &num_set,
+                         uint32_t objective) {
   uint32_t result = 0, i;
 
   for (i = 0; i < num_set.size(); ++i) {
