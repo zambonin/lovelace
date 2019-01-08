@@ -9,7 +9,7 @@ int32_t main(int32_t argc, char **argv) {
   }
 
   uint16_t size_power = strtol(argv[1], NULL, 0);
-  size_t side = 1 << size_power;
+  size_t side = 1u << size_power;
   float *A = calloc(side * side, sizeof(float)),
         *B = calloc(side * side, sizeof(float)),
         *C = calloc(side * side, sizeof(float));

@@ -18,7 +18,7 @@ func_ptr setup(char operator, uint32_t **vector, uint32_t **buffer,
     (*buffer)[0] = 0;
     return &_add;
   case '-':
-    (*buffer)[0] = (*vector)[0] << 1;
+    (*buffer)[0] = (*vector)[0] << 1u;
     return &_sub;
   case '*':
     (*buffer)[0] = *partial = *offset = 1;

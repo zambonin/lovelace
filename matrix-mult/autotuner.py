@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# pylint: disable=C0330
 
 """autotuner.py
 
@@ -10,10 +11,12 @@ optimal set such that the accompanying matrix multiplication (with handmade
 loop tiling) code runs in less time.
 """
 
+from __future__ import absolute_import, division
 from itertools import product, combinations, chain
 from subprocess import run, TimeoutExpired
 from sys import argv
 from time import time
+
 
 def _run(flags, _time, iterations=20):
     """
@@ -30,7 +33,7 @@ def _run(flags, _time, iterations=20):
         Average time of executions or the former execution time if the
         process was terminated through a timeout signal.
     """
-    run(['make', '-Bs'] + list(flags))
+    run(["make", "-Bs"] + list(flags))
     try:
         run(COMMAND, timeout=_time)
     except TimeoutExpired:
@@ -40,7 +43,7 @@ def _run(flags, _time, iterations=20):
     for _ in range(iterations):
         start = time()
         run(COMMAND)
-        _sum += (time() - start)
+        _sum += time() - start
     return _sum / iterations
 
 
@@ -54,27 +57,31 @@ def combine(iterable):
     Returns:
         All possible combinations considering at most one element of each set.
     """
-    card = range(len(iterable) + 1)
-    pset = chain.from_iterable(combinations(iterable, r) for r in card)
-    return list(chain.from_iterable(
-        [' '.join(s) for s in product(*i)] for i in pset))
+    pset = chain.from_iterable(
+        combinations(iterable, r) for r in range(len(iterable + 1))
+    )
+    return list(
+        chain.from_iterable([" ".join(s) for s in product(*i)] for i in pset)
+    )
 
 
 def main():
     """Produces some Makefile combinations and tests a program with them."""
-    compilers = ['CC={}'.format(i) for i in ['gcc', 'clang']]
-    flag_groups = combine([
-        ['-O{}'.format(i) for i in '1 2 3 g s fast'.split()],
-        ['-g'],
-        ['-march=native'],
-    ])
-    macro = ['CFLAGS=-DSTEP={}'.format(1 << i) for i in range(6)]
+    compilers = ["CC={}".format(i) for i in ["gcc", "clang"]]
+    flag_groups = combine(
+        [
+            ["-O{}".format(i) for i in "1 2 3 g s fast".split()],
+            ["-g"],
+            ["-march=native"],
+        ]
+    )
+    macro = ["CFLAGS=-DSTEP={}".format(1 << i) for i in range(6)]
 
     tuples = list(product(compilers, macro, flag_groups))
     poss = [tuple([i[0], " ".join(i[1:])]) for i in tuples]
 
-    min_time = float('inf')
-    cmd = ''
+    min_time = float("inf")
+    cmd = ""
 
     for i in poss:
         cmd_time = _run(i, min_time)
@@ -84,7 +91,8 @@ def main():
 
     print(cmd, min_time)
 
-if __name__ == '__main__':
-    assert len(argv) == 2, "Usage: python {} \"cmd\"".format(argv[0])
+
+if __name__ == "__main__":
+    assert len(argv) == 2, 'Usage: python {} "cmd"'.format(argv[0])
     COMMAND = argv[1].split()
     main()

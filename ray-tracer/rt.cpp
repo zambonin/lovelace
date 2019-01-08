@@ -46,8 +46,9 @@ vector3<float> trace(const vector3<float> &rayorig,
     if (sp->transparency != 0.0f) {
       float ior = 1.1, eta = (inside) ? ior : 1 / ior,
             cosi = -norm_it.dot(raydir), k = 1 - eta * eta * (1 - cosi * cosi);
-      vector3<float> refr_dir{raydir * eta + norm_it * (eta * cosi - sqrt(k)),
-                              true};
+      vector3<float> refr_dir{
+          // NOLINTNEXTLINE(performance-type-promotion-in-math-fn)
+          raydir * eta + norm_it * (eta * cosi - sqrt(k)), true};
       refrac = trace(point_it - norm_it * BIAS, refr_dir, spheres, depth + 1);
     }
 

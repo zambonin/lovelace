@@ -9,7 +9,7 @@ int32_t solve_nqueens(uint32_t ld, uint32_t col, uint32_t rd, uint32_t mask) {
   while ((poss & mask) != 0u) {
     uint32_t bit = poss & -poss;
     poss -= bit;
-    cnt += solve_nqueens((ld | bit) << 1, col | bit, (rd | bit) >> 1, mask);
+    cnt += solve_nqueens((ld | bit) << 1u, col | bit, (rd | bit) >> 1u, mask);
   }
   return cnt;
 }
@@ -20,7 +20,7 @@ int32_t main(int32_t argc, char **argv) {
     return 1;
   }
 
-  uint32_t mask = (1 << std::stoul(argv[1])) - 1;
+  uint32_t mask = (1u << std::stoul(argv[1])) - 1;
   std::cout << "Solutions = " << solve_nqueens(0, 0, 0, mask) << std::endl;
   return 0;
 }
