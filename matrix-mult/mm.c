@@ -30,12 +30,12 @@ int32_t main(int32_t argc, char **argv) {
     }
   }
 
-  for (jj = 0; jj < side; jj += STEP) {
-    for (kk = 0; kk < side; kk += STEP) {
+  for (jj = 0; jj < side; jj += MSTEP) {
+    for (kk = 0; kk < side; kk += MSTEP) {
       for (i = 0; i < side; ++i) {
-        for (j = jj; j < jj + STEP; ++j) {
+        for (j = jj; j < jj + MSTEP; ++j) {
           float r = 0.0;
-          for (k = kk; k < kk + STEP; ++k) {
+          for (k = kk; k < kk + MSTEP; ++k) {
             r += A[i * side + k] * B[k * side + j];
           }
           C[i * side + j] += r;

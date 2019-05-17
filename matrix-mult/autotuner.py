@@ -75,7 +75,7 @@ def main():
             ["-march=native"],
         ]
     )
-    macro = ["CFLAGS=-DSTEP={}".format(1 << i) for i in range(6)]
+    macro = ["CFLAGS=-DMSTEP={}".format(1 << i) for i in range(6)]
 
     tuples = list(product(compilers, macro, flag_groups))
     poss = [tuple([i[0], " ".join(i[1:])]) for i in tuples]

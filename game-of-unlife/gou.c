@@ -30,21 +30,21 @@ void evolve(void *u, int32_t w, int32_t h) {
   uint32_t(*univ)[w] = u, new[h][w];
   memset(new, 0, h * w * sizeof(uint32_t));
 
-  int32_t x, y, x1, y1, chunk, num_chunks = w * h / (STEP * STEP),
-                               chunks_in_row = h / STEP,
-                               chunks_in_col = w / STEP;
+  int32_t x, y, x1, y1, chunk, num_chunks = w * h / (GSTEP * GSTEP),
+                               chunks_in_row = h / GSTEP,
+                               chunks_in_col = w / GSTEP;
 
 #pragma omp parallel for shared(u, univ, new)                                  \
     firstprivate(w, h, num_chunks, chunks_in_row,                              \
                  chunks_in_col) private(x, x1, y, y1, chunk) schedule(static)
   for (chunk = 0; chunk < num_chunks; chunk++) {
-    int32_t r_start = STEP * (chunk / chunks_in_col),
-            c_start = STEP * (chunk % chunks_in_row),
-            r_end = r_start + STEP > h ? h : r_start + STEP,
-            c_end = c_start + STEP > w ? w : c_start + STEP, r, c;
+    int32_t r_start = GSTEP * (chunk / chunks_in_col),
+            c_start = GSTEP * (chunk % chunks_in_row),
+            r_end = r_start + GSTEP > h ? h : r_start + GSTEP,
+            c_end = c_start + GSTEP > w ? w : c_start + GSTEP, r, c;
 
-    for (c = c_start; c < c_end; c += STEP) {
-      for (r = r_start; r < r_end; r += STEP) {
+    for (c = c_start; c < c_end; c += GSTEP) {
+      for (r = r_start; r < r_end; r += GSTEP) {
         for (y = c_start; y < c_end; ++y) {
           for (x = r_start; x < r_end; ++x) {
             uint32_t alive = 0, undead = 0;
