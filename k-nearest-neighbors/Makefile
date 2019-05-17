@@ -1,7 +1,5 @@
 TMPFILE := $(shell mktemp)
 
-all:
-
 test: fisher average
 
 fisher:
@@ -11,6 +9,3 @@ fisher:
 average:
 	python knn.py tests/average_{data,test}set.csv $(TMPFILE) 13
 	cmp -s tests/average_output.csv $(TMPFILE)
-
-clean:
-	rm $(TMPFILE)
