@@ -7,7 +7,7 @@ Usage: ./mm <sq. matrix side>
 A Python automated tuner can be executed to explore some common compiler flags
 used to optimize the code.
 
-Usage: python autotuner.py "cmd"
+Usage: python autotuner.py "./mm 8"
 
 Code that multiplies sparse matrices is available in C++.
 

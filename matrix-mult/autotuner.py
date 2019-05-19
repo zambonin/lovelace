@@ -33,7 +33,7 @@ def _run(flags, _time, iterations=20):
         Average time of executions or the former execution time if the
         process was terminated through a timeout signal.
     """
-    run(["make", "-Bs"] + list(flags))
+    run(["make", "-B"] + list(flags) + ["auto"])
     try:
         run(COMMAND, timeout=_time)
     except TimeoutExpired:
@@ -58,7 +58,7 @@ def combine(iterable):
         All possible combinations considering at most one element of each set.
     """
     pset = chain.from_iterable(
-        combinations(iterable, r) for r in range(len(iterable + 1))
+        combinations(iterable, r) for r in range(len(iterable) + 1)
     )
     return list(
         chain.from_iterable([" ".join(s) for s in product(*i)] for i in pset)

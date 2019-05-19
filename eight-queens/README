@@ -1,6 +1,6 @@
-The `n` queens problem consist of placing `n` non-attacking queens on an
-chessboard of side `n`. This code counts all possible solutions for boards
-of size up to 32. Bitwise implementation ported from MCPL [1].
+The `n` queens problem consists of placing `n` non-attacking queens on a
+chessboard of side `n`. This code counts all possible solutions for boards of
+size up to 32. Bitwise implementation ported from MCPL [1].
 
 Usage:
 

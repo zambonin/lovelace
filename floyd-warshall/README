@@ -1,8 +1,9 @@
-The Floyd-Warshall algorithm is an algorithm for finding shortest paths in a
+The Floyd-Warshall algorithm is an algorithm used to find shortest paths in a
 weighted graph with no negative cycles. A single execution of the algorithm
 will find the lengths of the shortest paths between all pairs of vertices.
 
-The commands below may help in visualizing how much time executions take.
+The commands below may help in visualizing how much time executions take. The
+`graph` file is the output of the `generator` program.
 
     $ TIMEFORMAT='%E'
     $ for i in {1..100} ; do (time ./fw graph) 2>&1 ; done | sort | uniq -c
