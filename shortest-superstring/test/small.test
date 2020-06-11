@@ -1,0 +1,10 @@
+#!/bin/sh
+
+./shortest-superstring/shs /dev/stdin <<EOF
+5
+CATGC
+CTAAGT
+GCTA
+TTCA
+ATGCATC
+EOF

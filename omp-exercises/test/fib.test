@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./omp-exercises/fibonacci 10

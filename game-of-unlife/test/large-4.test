@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./game-of-unlife/gou /dev/stdin <<EOF
+100 1000 1000 34
+EOF

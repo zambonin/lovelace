@@ -1,0 +1,4 @@
+#!/bin/sh
+
+python ./k-nearest-neighbors/knn.py \
+  k-nearest-neighbors/test/fisher-{data,test}.csv /dev/stdout 5

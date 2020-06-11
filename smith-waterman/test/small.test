@@ -1,0 +1,7 @@
+#!/bin/sh
+
+./smith-waterman/sw+ /dev/fd/3 3<< EOF1 /dev/fd/4 4<< EOF2
+AAAAA
+EOF1
+AAAA
+EOF2

@@ -12,8 +12,11 @@ debug: CFLAGS += -g
 debug: CXXFLAGS += -g
 debug: all
 
-test: /usr/bin/cmp all
-	$(foreach d,$(wildcard */.),$(MAKE) 'SHELL=/bin/bash' -C $d test;)
+.NOTPARALLEL:
+test: all $(patsubst %.test,%.stdout,$(shell find . -name \*.test))
+%.stdout: %.test /usr/bin/python /usr/bin/git
+	./$< > $@ || (touch --date=@0 $@; false)
+	git diff --exit-code $@ || (touch --date=@0 $@; false)
 
 clean:
-	rm -f $(OBJ_FILES)
+	$(RM) $(OBJ_FILES)

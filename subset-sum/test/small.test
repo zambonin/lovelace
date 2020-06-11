@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./subset-sum/ss 10 53 32 10

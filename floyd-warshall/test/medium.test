@@ -1,0 +1,10 @@
+#!/bin/sh
+
+./floyd-warshall/fw /dev/stdin <<EOF
+3 5
+0 1 4
+2 1 5
+2 1 6
+1 2 234
+0 2 400
+EOF

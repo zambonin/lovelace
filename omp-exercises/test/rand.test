@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./omp-exercises/rand_comparing 10
